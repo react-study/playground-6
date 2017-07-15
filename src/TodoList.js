@@ -15,11 +15,12 @@ class TodoList extends React.Component{
                     <Todo text='서울뚝배기'/>
                     <Todo text='집밥먹자'/>
                     */}
-                    {this.props.todos.map((v, i) => (
+                    {this.props.todos.map(v => (
                         <Todo
-                            key={i} 
-                            text={v}
-                            deleteTodo={() => deleteTodo(i)}/>
+                            key={v.id} 
+                            text={v.text}
+                            isDone={v.isDone}
+                            deleteTodo={() => deleteTodo(v.id)}/>
                     ))}
                 </ul>
             </div>
