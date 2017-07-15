@@ -38,11 +38,11 @@ class App extends React.Component{
         const newTodos = [ ... this.state.todos ];
 
         //index 찾는작업
-        const targetIndex = newTodo.findIndex(v => v.id === id );
+        const targetIndex = newTodos.findIndex(v => v.id === id );
         if(targetIndex > -1) { // 찾고자 하는애가 없으면 -1을 뱉어내는 성질을 이용한 안전장치
             newTodos.splice(targetIndex, 1);
         }
-        
+
         this.setState({
             todos: newTodos
         });
