@@ -3,7 +3,8 @@ import Todo from './Todo';
 
 const TodoList = ({ 
     todos,
-    deleteTodo 
+    deleteTodo,
+    startEdit
 }) => (
     <div className="todo-app__main">
         <ul className="todo-list">
@@ -12,7 +13,8 @@ const TodoList = ({
                     key={id} 
                     text={text}
                     isDone={isDone}
-                    deleteTodo={() => deleteTodo(id)}/>
+                    deleteTodo={() => deleteTodo(id)}
+                    startEdit={() => startEdit(id)}/>
             ))}
         </ul>
     </div>

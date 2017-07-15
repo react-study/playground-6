@@ -21,7 +21,8 @@ class App extends React.Component{
                 id: 4555,
                 text: '집에가자',
                 isDone: false
-            }]
+            }],
+            editingId: null
         };
     }
     addTodo = text => {
@@ -48,13 +49,21 @@ class App extends React.Component{
         });
     }
 
+    startEdit = id => { //수정모드로 전환(input)을 알려야함
+        this.setState({
+            editingId: id
+        })
+    }
+
     render(){
         return (
             <div className="todo-app">
                 <Header addTodo={this.addTodo}/>
                 <TodoList 
                     todos={this.state.todos}
-                    deleteTodo={this.deleteTodo}/>
+                    deleteTodo={this.deleteTodo}
+                    startEdit={this.startEdit}
+                    editingId={this.state.editingId}/>
                 <Footer/>
             </div>
         )
