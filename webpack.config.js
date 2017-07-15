@@ -16,7 +16,7 @@ module.exports = {
         publicPath: '/',
     },
     context: _PATH,
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'inline-source-map',
     devServer: {
         contentBase: _PATH,
         publicPath: '/',
