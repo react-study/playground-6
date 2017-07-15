@@ -11,6 +11,7 @@ class Header extends React.Component {
 
         // 내용이 있고, 엔터키인 경우에만 addTodo 실행.
         this.props.addTodo(text);
+        e.target.value ='';
     }
     render() {
         return ( 

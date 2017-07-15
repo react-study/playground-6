@@ -20,11 +20,21 @@ class App extends React.Component{
         });
     }
 
+    deleteTodo = index => {
+        const newTodos = [ ... this.state.todos ];
+        newTodos.splice(index, 1);
+        this.setState({
+            todos: newTodos
+        });
+    }
+
     render(){
         return (
             <div className="todo-app">
                 <Header addTodo={this.addTodo}/>
-                <TodoList todos={this.state.todos}/>
+                <TodoList 
+                    todos={this.state.todos}
+                    deleteTodo={this.deleteTodo}/>
                 <Footer/>
             </div>
         )
