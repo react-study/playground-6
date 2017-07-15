@@ -3,6 +3,10 @@ import Todo from './Todo';
 
 class TodoList extends React.Component{
     render(){
+        const {
+            todo,
+            deleteTodo
+        } = this.props;
         
         return (
             <div className="todo-app__main">
@@ -12,7 +16,10 @@ class TodoList extends React.Component{
                     <Todo text='집밥먹자'/>
                     */}
                     {this.props.todos.map((v, i) => (
-                        <Todo key={i} text={v}/>
+                        <Todo
+                            key={i} 
+                            text={v}
+                            deleteTodo={() => deleteTodo(i)}/>
                     ))}
                 </ul>
             </div>

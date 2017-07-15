@@ -3,7 +3,8 @@ import React from 'react';
 class Todo extends React.Component{
     render(){
         const {
-            text
+            text,
+            deleteTodo
         } = this.props;
 
         return (
@@ -14,7 +15,9 @@ class Todo extends React.Component{
                         {/*this.props.text*/}
                         {text}
                     </div>
-                    <button className="todo-item__destroy"></button>
+                    <button 
+                        className="todo-item__destroy"
+                        onClick={deleteTodo}/>
                 </div>
                 <input type="text" className="todo-item__edit"/>
             </li>
