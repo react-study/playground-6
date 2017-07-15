@@ -56,14 +56,18 @@ class App extends React.Component{
     }
 
     render(){
+        const {
+            todos,
+            editingId,
+        } = this.state;
         return (
             <div className="todo-app">
                 <Header addTodo={this.addTodo}/>
                 <TodoList 
-                    todos={this.state.todos}
+                    todos={todos}
                     deleteTodo={this.deleteTodo}
                     startEdit={this.startEdit}
-                    editingId={this.state.editingId}/>
+                    editingId={editingId}/>
                 <Footer/>
             </div>
         )

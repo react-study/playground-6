@@ -3,6 +3,7 @@ import Todo from './Todo';
 
 const TodoList = ({ 
     todos,
+    editingId,
     deleteTodo,
     startEdit
 }) => (
@@ -13,6 +14,7 @@ const TodoList = ({
                     key={id} 
                     text={text}
                     isDone={isDone}
+                    isEditing={ id === editingId }
                     deleteTodo={() => deleteTodo(id)}
                     startEdit={() => startEdit(id)}/>
             ))}
