@@ -3,10 +3,11 @@ import React from 'react';
 const Todo = ({
     text,
     isDone,
+    isEditing,
     deleteTodo,
     startEdit
 }) => (
-    <li className="todo-item">
+    <li className={`todo-item${isEditing ? ' editing' : ''}`}>
         <button className="toggle" />
         <div className="todo-item__view">
             <div 
