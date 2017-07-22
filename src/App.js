@@ -101,6 +101,13 @@ class App extends React.Component{
         })
     }
 
+    clearCompleted = () => {
+        const newTodos = this.state.todos.filter(v => !v.isDone); // isDone이 not인 애들만 찾아서 설정
+        this.setState({
+            todos: newTodos
+        })
+    }
+
     render(){
         const {
             todos,
@@ -122,7 +129,8 @@ class App extends React.Component{
                     candelEdit={this.cancelEdit}
                     toggleTodo={this.toggleTodo}
                 />
-                <Footer/>
+                <Footer
+                    clearCompleted={this.clearCompleted}/>
             </div>
         )
     }
