@@ -113,6 +113,10 @@ class App extends React.Component{
             todos,
             editingId,
         } = this.state;
+
+        const activeLength = todos.filter(v => !v.isDone).length;
+        const completedLength = todos.length - activeLength;
+
         return (
             <div className="todo-app">
                 <Header 
@@ -130,6 +134,8 @@ class App extends React.Component{
                     toggleTodo={this.toggleTodo}
                 />
                 <Footer
+                    activeLength={activeLength}
+                    completedLength={completedLength}
                     clearCompleted={this.clearCompleted}/>
             </div>
         )
