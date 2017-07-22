@@ -25,7 +25,7 @@ class App extends React.Component{
             editingId: null
         };
     }
-    addTodo = text => {
+    addTodo = text => { 
         this.setState({
             todos: [ ... this.state.todos, {
                 id: Date.now(),
@@ -71,12 +71,25 @@ class App extends React.Component{
             editingId: null
         })
     }
+
     cancelEdit = () => {
         this.setState({
             editingId: null
         });
     }
 
+    toggleTodo = id => { // id값을 받아서 그거에 해당되는 isDone을 toggle시킴 (기본적인 동작은 saveTodo와 비슷)
+        const newTodos = [ ... this.state.todos ];
+        const targetIndex = newTodos.findIndex(v => v.id === id);
+        newTodos[targetIndex] = Object.assign({}, newTodos[targetIndex], {
+            isDone : !newTodos[targetIndex].isDone
+        });
+        this.setState({
+            todos: newTodos
+        })
+    }
+
+    
     render(){
         const {
             todos,
@@ -92,6 +105,7 @@ class App extends React.Component{
                     editingId={editingId}
                     saveTodo={this.saveTodo}
                     candelEdit={this.cancelEdit}
+                    toggleTodo={this.toggleTodo}
                 />
                 <Footer/>
             </div>

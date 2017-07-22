@@ -29,7 +29,8 @@ class Todo extends React.Component {
             isEditing,
             deleteTodo,
             startEdit,
-            cancelEdit
+            cancelEdit,
+            toggleTodo
         } = this.props;
         return (
             <li className={
@@ -38,7 +39,9 @@ class Todo extends React.Component {
                     completed: isDone // isDone이 true일때만 들어옴
                 })}>
                 {/* `todo-item${isEditing ? ' editing' : ''}`}> */}
-                <button className="toggle" />
+                <button 
+                    className="toggle" 
+                    onClick={toggleTodo}/>
                 <div className="todo-item__view">
                     <div 
                         className="todo-item__view__text"

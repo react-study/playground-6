@@ -6,7 +6,9 @@ const TodoList = ({
     editingId,
     deleteTodo,
     startEdit,
-    saveTodo
+    saveTodo,
+    cancelEdit,
+    toggleTodo
 }) => (
     <div className="todo-app__main">
         <ul className="todo-list">
@@ -19,6 +21,8 @@ const TodoList = ({
                     deleteTodo={() => deleteTodo(id)}
                     startEdit={() => startEdit(id)}
                     saveTodo={text => saveTodo(id, text)} //새로운 text를 받아서 상위에있는 saveTodo에게 id와 text넘겨줌
+                    cancelEdit={cancelEdit}
+                    toggleTodo={() => toggleTodo(id)}
                 />
             ))}
         </ul>
