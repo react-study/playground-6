@@ -1,19 +1,35 @@
 import React from 'react';
+import ClassNames from 'classnames';
 
-class Footer extends React.Component {
-	render(){
-		return (
-			<div className="footer">
-				<span className="todo-count">0 items left</span>
-				<ul className="todo-filters">
-					<li><a href="#">All</a></li>
-					<li><a href="#">Active</a></li>
-					<li><a href="#">Complete</a></li>
-				</ul>
-				<button className="todo-delete-completed">Clear Complete</button>
-			</div>
-		)
-	}
+const filterNames = ['All','Active','Completed'];
+const Footer = ({
+	activeLength,
+	completedLength,
+	clearCompleted,
+	filter,
+	selectFilter
+}) =>{
+
+	const filters = filterNames.map(v => (
+		<li key={v}>
+			<a 
+			onClick={() =>selectFilter(v)}
+			className={filter === v ? 'selected' : ''}>{v}</a>
+		</li>
+		));
+	return (
+	<div className="footer">
+		<span className="todo-count"><strong>{activeLength}</strong>{' '}<span>item{activeLength !==1 ? 's' : ''}</span> left</span>
+		<ul className="todo-filters">
+			{filters}
+		</ul>
+		<button className={ClassNames('todo-delete-completed',{
+			Hidden : !completedLength
+		})} onClick={clearCompleted} >Clear Complete</button>
+	</div>
+)
 }
+
+
 
 export default Footer;
