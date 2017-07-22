@@ -24,7 +24,9 @@ class App extends React.Component {
                 id: 111111,
                 text: '밥먹자',
                 isDone: false
-            }]
+            }],
+            editingId: null,
+            filter: 'All' // 'All', 'Active', 'Completed'
         };
     }
 
@@ -51,15 +53,108 @@ class App extends React.Component {
         });
     }
 
+    startEdit = id => {
+        this.setState({
+            editingId: id
+        });
+    }
+
+    saveTodo = (id, newText) => {
+        const newTodos = [...this.state.todos];
+        const targetIndex = newTodos.findIndex(v => v.id === id);
+        newTodos[targetIndex] = Object.assign({}, newTodos[targetIndex], {
+            text: newText
+        });
+
+        this.setState({
+            todos: newTodos,
+            editingId: null
+        });
+    }
+
+    cancelEdit = () => {
+        this.setState({
+            editingId: null
+        });
+    }
+
+    toggleTodo = id => {
+        const newTodos = [...this.state.todos];
+        const targetIndex = newTodos.findIndex(v => v.id === id);
+        newTodos[targetIndex] = Object.assign({}, newTodos[targetIndex], {
+            isDone: !newTodos[targetIndex].isDone
+        });
+        this.setState({
+            todos: newTodos
+        });
+    }
+
+    toggleAll = () => {
+        const newIsDone = !this.state.todos.every(v => v.isDone);
+        const newTodos = this.state.todos.map(v =>
+            Object.assign({}, v, {
+                isDone: newIsDone
+            })
+        );
+        this.setState({
+            todos: newTodos
+        });
+    }
+
+    clearCompleted = () => {
+        const newTodos = this.state.todos.filter(v => !v.isDone);
+        this.setState({
+            todos: newTodos
+        });
+    }
+
+    selectFilter = filter => {
+        this.setState({
+            filter
+        });
+    }
+
     render() {
+        const {
+            todos,
+            editingId,
+            filter
+        } = this.state;
+
+        const activeLength = todos.filter(v => !v.isDone).length;
+        const completedLength = todos.length - activeLength;
+
+        let filteredTodos = null;
+        switch(filter) {
+        case 'Active': filteredTodos = todos.filter(v => !v.isDone); break;
+        case 'Completed': filteredTodos = todos.filter(v => v.isDone); break;
+        case 'All':
+        default: filteredTodos = todos;
+        }
+
         return (
             <div className="todo-app">
-                <Header addTodo={this.addTodo}/>
-                <TodoList
-                    todos={this.state.todos}
-                    deleteTodo={this.deleteTodo}
+                <Header
+                    addTodo={this.addTodo}
+                    toggleAll={this.toggleAll}
+                    isAllDone={todos.every(v => v.isDone)}
                 />
-                <Footer />
+                <TodoList
+                    todos={filteredTodos}
+                    editingId={editingId}
+                    deleteTodo={this.deleteTodo}
+                    startEdit={this.startEdit}
+                    saveTodo={this.saveTodo}
+                    cancelEdit={this.cancelEdit}
+                    toggleTodo={this.toggleTodo}
+                />
+                <Footer
+                    filter={filter}
+                    activeLength={activeLength}
+                    completedLength={completedLength}
+                    clearCompleted={this.clearCompleted}
+                    selectFilter={this.selectFilter}
+                />
             </div>
         );
     }

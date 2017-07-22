@@ -3,7 +3,12 @@ import Todo from './Todo';
 
 const TodoList = ({
     todos,
-    deleteTodo
+    editingId,
+    deleteTodo,
+    startEdit,
+    saveTodo,
+    cancelEdit,
+    toggleTodo
 }) => (
     <div className="todo-app__main">
         <ul className="todo-list">
@@ -12,7 +17,12 @@ const TodoList = ({
                     key={id}
                     text={text}
                     isDone={isDone}
+                    isEditing={ id === editingId }
                     deleteTodo={() => deleteTodo(id)}
+                    startEdit={() => startEdit(id)}
+                    saveTodo={text => saveTodo(id, text)}
+                    cancelEdit={cancelEdit}
+                    toggleTodo={() => toggleTodo(id)}
                 />
             ))}
         </ul>
