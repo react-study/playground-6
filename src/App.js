@@ -55,6 +55,23 @@ class App extends React.Component{
         })
     }
 
+    saveTodo = (id, newText) => { // 아이디와 바뀐 텍스트를 받아오면
+        const newTodos = [ ...this.state.todos]; // setState에 접근하기 전까지는, 새로운 객체를 만들어서 그걸 newTodos에 받고
+
+        const targetIndex = newTodos.findIndex(v => v.id === id ); // 인덱스에 접근해서 바꿔치기 함.
+        // - this.state[targetIndex].text = newText // 이렇게 this.setState를 직접 바꾸면 안됨.
+        // - newTodos[targetIndex].text = newText; // 배열안의 객체 (객체는 참조형 데이터형이라서 안됨)
+        // - 다음과 같이 Object.assign을 이용해야 올바름
+        newTodos[targetIndex] = Object.assign({}, newTodos[targetIndex], {
+            text: newText
+        })
+
+        this.setState({
+            todos: newTodos,
+            editingId: null
+        })
+    }
+
     render(){
         const {
             todos,
@@ -67,7 +84,9 @@ class App extends React.Component{
                     todos={todos}
                     deleteTodo={this.deleteTodo}
                     startEdit={this.startEdit}
-                    editingId={editingId}/>
+                    editingId={editingId}
+                    saveTodo={this.saveTodo}
+                />
                 <Footer/>
             </div>
         )

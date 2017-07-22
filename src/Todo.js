@@ -8,6 +8,19 @@ class Todo extends React.Component {
             this._inputDom.value = this.props.text;
         }
     }
+    handleKeyDown = e => {
+        const text = e.target.value;
+
+        // 방어코드
+        if(!text || e.keyCode !== 13) {
+            return;
+        }
+
+        // 내용이 있고, 엔터키인 경우에만 addTodo 실행.
+        this.props.saveTodo(text);
+        e.target.value ='';
+    }
+
     render() {
         const {
             text,
@@ -30,9 +43,11 @@ class Todo extends React.Component {
                         onClick={deleteTodo}/>
                 </div>
                 <input type="text" 
-                        className="todo-item__edit"
-                        ref={ref =>{
-                            this._inputDom = ref}}/>
+                       className="todo-item__edit"
+                       ref={ref =>{
+                            this._inputDom = ref}}
+                       onKeyDown={this.handleKeyDown}
+                />
             </li>
         )
     }
