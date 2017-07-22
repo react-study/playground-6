@@ -14,6 +14,10 @@ class Header extends React.Component {
         e.target.value ='';
     }
     render() {
+        const {
+            isAllDone,
+            toggleAll
+        } = this.props; // 2개 이상이면 Destructuring하자
         return ( 
             <header>
                 <h1 className="todo-app__header">todos</h1>
@@ -25,7 +29,7 @@ class Header extends React.Component {
                 />
                 <button 
                     className="toggle-all"
-                    onClick={this.props.toggleAll}/>
+                    onClick={toggleAll}/>
             </header>
         );
     }

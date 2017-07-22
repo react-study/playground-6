@@ -111,6 +111,7 @@ class App extends React.Component{
                 <Header 
                     addTodo={this.addTodo}
                     toggleAll={this.toggleAll}
+                    isAllDone={todos.every(v => v.isDone)}
                 />
                 <TodoList 
                     todos={todos}
