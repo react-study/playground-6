@@ -109,6 +109,12 @@ class App extends React.Component{
         })
     }
 
+    selectFilter = filter => { // footer에게 넘길 selectFilter
+        this.setState({
+            filter // filter: filter
+        })
+    }
+
     render(){
         const {
             todos,
@@ -148,7 +154,9 @@ class App extends React.Component{
                     filter={filter} //현재의 filter정보를 넘겨줌
                     activeLength={activeLength}
                     completedLength={completedLength}
-                    clearCompleted={this.clearCompleted}/>
+                    clearCompleted={this.clearCompleted}
+                    selectFilter = {this.selectFilter}
+                />
             </div>
         )
     }

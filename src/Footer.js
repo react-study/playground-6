@@ -7,11 +7,15 @@ const Footer = ({
     filter,
     activeLength,
     completedLength,
-    clearCompleted
+    clearCompleted,
+    selectFilter
 }) => {
     const filters = filterNames.map(v => (
         <li key={v}>
-            <a className={filter === v ? 'selected' : ''}>{v}</a>
+            <a  className={filter === v ? 'selected' : ''}
+                onClick={() => selectFilter(v)}>
+                {v}
+            </a>
         </li>
     ));
 
