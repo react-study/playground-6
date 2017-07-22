@@ -23,7 +23,9 @@ class Header extends React.Component {
                     placeholder="What needs to be done?"
                     onKeyDown={this.handleKeyDown}
                 />
-                <button className="toggle-all"/>
+                <button 
+                    className="toggle-all"
+                    onClick={this.props.toggleAll}/>
             </header>
         );
     }

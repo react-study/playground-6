@@ -89,7 +89,18 @@ class App extends React.Component{
         })
     }
 
-    
+    toggleAll = () => {
+        const newIsDone = !this.state.todos.every(v => v.isDone);
+        const newTodos = this.state.todos.map(v => // map사용하여 새로운 배열 만들기
+            Object.assign({}, v, { //객체의 참조를 끊기위해 Object.assign 이용
+                isDone: newIsDone // 새로운걸 만든담에 겹치는게 있으면 덮어쓰기
+            })
+        );
+        this.setState({
+            todos: newTodos
+        })
+    }
+
     render(){
         const {
             todos,
@@ -97,7 +108,10 @@ class App extends React.Component{
         } = this.state;
         return (
             <div className="todo-app">
-                <Header addTodo={this.addTodo}/>
+                <Header 
+                    addTodo={this.addTodo}
+                    toggleAll={this.toggleAll}
+                />
                 <TodoList 
                     todos={todos}
                     deleteTodo={this.deleteTodo}
