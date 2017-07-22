@@ -1,4 +1,5 @@
 import React from 'react';
+import ClassNames from 'classnames';
 
 class Todo extends React.Component {
     // componentWillUpdate는 nextProps, nextState 를 인자로 받음
@@ -30,7 +31,12 @@ class Todo extends React.Component {
             startEdit
         } = this.props;
         return (
-            <li className={`todo-item${isEditing ? ' editing' : ''}`}>
+            <li className={
+                ClassNames('todo-item', {
+                    editing: isEditing, // editing은 isEditing이 true일때만 들어옴
+                    completed: isDone // isDone이 true일때만 들어옴
+                })}>
+                {/* `todo-item${isEditing ? ' editing' : ''}`}> */}
                 <button className="toggle" />
                 <div className="todo-item__view">
                     <div 
