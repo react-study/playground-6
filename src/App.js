@@ -22,7 +22,8 @@ class App extends React.Component{
                 text: '집에가자',
                 isDone: false
             }],
-            editingId: null
+            editingId: null,
+            filter: 'All' // All, Completed, Active
         };
     }
     addTodo = text => { 
@@ -117,6 +118,15 @@ class App extends React.Component{
         const activeLength = todos.filter(v => !v.isDone).length;
         const completedLength = todos.length - activeLength;
 
+        // 필터를 거친 todos를 넘기기 위한 메서드 추가
+        let filteredTodos = null;
+        switch(filter) {
+            case 'Active' : filteredTodos = todos.filter(v => !v.isDone); break;
+            case 'Completed' : filteredTodos = todos.filter(v => v.isDone); break;
+            case 'All' : filterdTodos = todos; break;
+            default: filteredTodos = todos;
+        }
+
         return (
             <div className="todo-app">
                 <Header 
@@ -125,7 +135,7 @@ class App extends React.Component{
                     isAllDone={todos.every(v => v.isDone)}
                 />
                 <TodoList 
-                    todos={todos}
+                    todos={filteredTodos} //todos에서 filteredTodos로 수정
                     deleteTodo={this.deleteTodo}
                     startEdit={this.startEdit}
                     editingId={editingId}
@@ -134,6 +144,7 @@ class App extends React.Component{
                     toggleTodo={this.toggleTodo}
                 />
                 <Footer
+                    filter={filter} //현재의 filter정보를 넘겨줌
                     activeLength={activeLength}
                     completedLength={completedLength}
                     clearCompleted={this.clearCompleted}/>
