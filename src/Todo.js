@@ -28,7 +28,8 @@ class Todo extends React.Component {
             isDone,
             isEditing,
             deleteTodo,
-            startEdit
+            startEdit,
+            cancelEdit
         } = this.props;
         return (
             <li className={
@@ -53,6 +54,7 @@ class Todo extends React.Component {
                        ref={ref =>{
                             this._inputDom = ref}}
                        onKeyDown={this.handleKeyDown}
+                       onBlur={cancelEdit}
                 />
             </li>
         )

@@ -71,6 +71,11 @@ class App extends React.Component{
             editingId: null
         })
     }
+    cancelEdit = () => {
+        this.setState({
+            editingId: null
+        });
+    }
 
     render(){
         const {
@@ -86,6 +91,7 @@ class App extends React.Component{
                     startEdit={this.startEdit}
                     editingId={editingId}
                     saveTodo={this.saveTodo}
+                    candelEdit={this.cancelEdit}
                 />
                 <Footer/>
             </div>
