@@ -9,6 +9,12 @@ const Footer = ({
     completedLength,
     clearCompleted
 }) => {
+    const filters = filterNames.map(v => (
+        <li key={v}>
+            <a className={filter === v ? 'seledted' : ''}>{v}</a>
+        </li>
+    ));
+
     return (
         <footer className="footer">
             <span className="todo-count">
@@ -17,9 +23,7 @@ const Footer = ({
                 left
             </span>
             <ul className="todo-filters">
-                <li><a href="">All</a></li>
-                <li><a href="">Active</a></li>
-                <li><a href="">Completed</a></li>
+                {filters}
             </ul>
             <button 
                 className={ClassNames('todo-delete-completed', {
