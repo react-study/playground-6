@@ -113,6 +113,7 @@ class App extends React.Component{
         const {
             todos,
             editingId,
+            filter
         } = this.state;
 
         const activeLength = todos.filter(v => !v.isDone).length;
@@ -123,7 +124,7 @@ class App extends React.Component{
         switch(filter) {
             case 'Active' : filteredTodos = todos.filter(v => !v.isDone); break;
             case 'Completed' : filteredTodos = todos.filter(v => v.isDone); break;
-            case 'All' : filterdTodos = todos; break;
+            case 'All' : filteredTodos = todos; break;
             default: filteredTodos = todos;
         }
 

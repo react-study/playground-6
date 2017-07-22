@@ -11,7 +11,7 @@ const Footer = ({
 }) => {
     const filters = filterNames.map(v => (
         <li key={v}>
-            <a className={filter === v ? 'seledted' : ''}>{v}</a>
+            <a className={filter === v ? 'selected' : ''}>{v}</a>
         </li>
     ));
 
@@ -35,3 +35,5 @@ const Footer = ({
         </footer>
     );
 }
+
+export default Footer;
