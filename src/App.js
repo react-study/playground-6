@@ -3,29 +3,28 @@ import Header from './Header';
 import TodoList from './TodoList';
 import Footer from './Footer';
 
+import axios from 'axios';
+
 class App extends React.Component{
     constructor(){
         super();
         this.state = {
-            todos: [{   
-                id: 1000,
-                text: '서울뚝배기',
-                isDone: false
-            },
-            {
-                id: 1010,
-                text: '집밥먹자',
-                isDone: true
-            },
-            {
-                id: 4555,
-                text: '집에가자',
-                isDone: false
-            }],
+            todos: [], //axios으로 가져오기위해 빈배열로 변경
             editingId: null,
             filter: 'All' // All, Completed, Active
         };
     }
+
+    componentDidMount(){ // mount시점에 요청하는것이 좋을것으로 판단
+        axios.get('http://localhost:2403/todos') //객체
+        .then(res => {
+            //console.log(res);
+            this.setState({
+                todos: res.data
+            })
+        })
+    }
+
     addTodo = text => { 
         this.setState({
             todos: [ ... this.state.todos, {
