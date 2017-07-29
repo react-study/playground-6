@@ -2,57 +2,63 @@ import React from 'react';
 import Header from './Header';
 import TodoList from './TodoList';
 import Footer from './Footer';
+import axios from 'axios';
+const ax = axios.create({
+  baseURL: "http://localhost:2403/todos",
+  timeout: 1000
+});
+
+
 
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      todos: [{
-        id:1000,
-        text: "서울뚝배기",
-        isDone: false
-      }, {
-        id:1010,
-        text: "집밥먹자",
-        isDone: false
-      }, {
-        id:1020,
-        text: "집에가자",
-        isDone: false
-      }, {
-        id:1030,
-        text: "밥먹자",
-        isDone: true
-      }],
+      todos: [],
       editingId: null,
       filter: "All"
-
     };
+  }
+
+  componentWillMount() {
+    ax.get("/")
+    .then(res => {
+      this.setState({
+        todos: res.data
+      });
+    });
   }
 
   addTodo = text => {
      // this.state를 변경하지 않고 새로운 배열을 만듬.
-    this.setState({
-      todos: [... this.state.todos, {
-        id: Date.now(),
-        text,
-        isDone: false
-      }]
+    ax.post("/", { text })
+    .then(res => {
+      this.setState({
+        todos: [... this.state.todos, res.data]
+      });
     });
     // this.state.todos.push(text); 안돼!
   }
 
   deleteTodo = id => {
-    const newTodos = [... this.state.todos];
-    const targetIndex = newTodos.findIndex(v => v.id === id)
 
-    if(targetIndex > -1) {
-      newTodos.splice(targetIndex, 1)
-    }
+    ax.delete(`/${id}`)
+    .then(() => {
 
-    this.setState({
-      todos: newTodos
-    });
+      const newTodos = [... this.state.todos];
+      const targetIndex = newTodos.findIndex(v => v.id === id)
+
+      if(targetIndex > -1) {
+        newTodos.splice(targetIndex, 1)
+      }
+      this.setState({
+        todos: newTodos
+      });
+
+
+    })
+
+
   }
 
   startEdit = id => {
@@ -64,16 +70,23 @@ class App extends React.Component {
 
   saveTodo = (id, newText) => {
 
-    const newTodos = [... this.state.todos];
-    const targetIndex = newTodos.findIndex(v => v.id === id);
-    newTodos[targetIndex] = Object.assign({}, newTodos[targetIndex], {
+    ax.put(`/${id}`, {
       text: newText
+    })
+    .then( res => {
+
+      const newTodos = [... this.state.todos];
+      const targetIndex = newTodos.findIndex(v => v.id === id);
+      newTodos[targetIndex] = res.data;
+
+      this.setState ({
+        todos: newTodos,
+        editingId: null
+      });
+
     });
 
-    this.setState ({
-      todos: newTodos,
-      editingId: null
-    });
+
   }
 
 
@@ -86,19 +99,38 @@ class App extends React.Component {
   toggleTodo = id => {
     const newTodos = [... this.state.todos];
     const targetIndex = newTodos.findIndex(v => v.id === id);
-    newTodos[targetIndex] =  Object.assign({}, newTodos[targetIndex], {
-      isDone: !newTodos[targetIndex].isDone
+    const newDone = !newTodos[targetIndex].isDone
+    ax.put(`/${id}`, {
+      isDone:newDone
+    })
+    .then( res => {
+      newTodos[targetIndex] = res.data;
+      this.setState({
+        todos: newTodos
+      });
     });
-    this.setState({
-      todos: newTodos
-    });
+
   }
 
 
 
   toggleAll = () => {
-
     const newIsDone = !this.state.todos.every(v => v.isDone);
+    const axArray = this.state.todos.map(v =>
+      ax.put(`/${v.id}`, {
+        isDone : newIsDone
+      }) // 서버에서 수집
+    )
+    // 요청 자체가 배열로 들어옴
+    // [ax.put(`/${id}`, { isDone : newIsDone}), ...]
+    axios.all(axArray)
+    .then(res => {
+      this.setState({
+        todos: res.map(r => r.data)
+      });
+    });
+
+
     const newTodos = this.state.todos.map(v =>
       Object.assign({}, v, {
         isDone: newIsDone
@@ -111,10 +143,17 @@ class App extends React.Component {
 
 
   clearCompleted = () => {
-    const newTodos = this.state.todos.filter(v => !v.isDone);
-    this.setState({
-      todos: newTodos
-    });
+    const axArray = this.state.todos
+    .filter(v => v.isDone)
+    .map(v => ax.delete(`/${v.id}`));
+
+    axios.all(axArray)
+    .then(()=>{
+      this.setState({
+        todos: this.state.todos.filter(v => !v.isDone)
+      });
+    })
+
   }
 
   selectFilter = filter => {
@@ -122,8 +161,6 @@ class App extends React.Component {
         filter
     });
   }
-
-
 
 
   render() {
@@ -138,7 +175,7 @@ class App extends React.Component {
 
     let filteredTodos = null;
     switch(filter) {
-      case 'Active' : filteredTodos = todos. filter(v => !v.isDone); break;
+      case 'Active' : filteredTodos = todos.filter(v => !v.isDone); break;
       case 'Completed' : filteredTodos = todos.filter(v => v.isDone); break;
       case 'All' :
       default : filteredTodos = todos;
