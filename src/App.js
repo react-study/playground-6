@@ -106,6 +106,20 @@ class App extends React.Component{
 
     toggleAll = () => {
         const newIsDone = !this.state.todos.every(v => v.isDone);
+        const axArray = this.state.todos.map(v =>
+            ax.put(`/${v.id}`, {
+                isDone: newIsDone
+            })
+        )
+        axios.all(axArray) // 수집하는 동작
+        .then(res => { // 배열안에 들어온 애들이 반응이 돌아오면..
+            this.setState({
+                todos: res.map(res => res.data) // 각각의 배열에 접근해서 새로운 배열을 만듬
+            });
+        });
+
+        /*
+        const newIsDone = !this.state.todos.every(v => v.isDone);
         const newTodos = this.state.todos.map(v => // map사용하여 새로운 배열 만들기
             Object.assign({}, v, { //객체의 참조를 끊기위해 Object.assign 이용
                 isDone: newIsDone // 새로운걸 만든담에 겹치는게 있으면 덮어쓰기
@@ -114,6 +128,7 @@ class App extends React.Component{
         this.setState({
             todos: newTodos
         })
+        */
     }
 
     clearCompleted = () => {
