@@ -15,8 +15,7 @@ class App extends React.Component{
         super();
         this.state = {
             todos: [], //axios으로 가져오기위해 빈배열로 변경
-            editingId: null,
-            filter: 'All' // All, Completed, Active
+            editingId: null
         };
     }
 
@@ -151,18 +150,20 @@ class App extends React.Component{
         */
     }
 
-    selectFilter = filter => { // footer에게 넘길 selectFilter
-        this.setState({
-            filter // filter: filter
-        })
-    }
-
     render(){
         const {
             todos,
-            editingId,
-            filter
+            editingId
         } = this.state;
+
+        const {
+            match: {
+                params
+            }
+        } = this.props;
+
+        const filter = params.filter || 'All';
+        // this.props.match.params === { filter: 'active' };
 
         const activeLength = todos.filter(v => !v.isDone).length;
         const completedLength = todos.length - activeLength;
