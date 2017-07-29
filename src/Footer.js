@@ -1,7 +1,7 @@
 import React from 'react';
 import ClassNames from 'classnames';
 
-const filterNames = ['All', 'Active', 'Completed'];
+const filterNames = ['all', 'active', 'completed'];
 
 const Footer = ({
     filter,
