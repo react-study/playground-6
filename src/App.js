@@ -64,19 +64,22 @@ class App extends React.Component{
     }
 
     saveTodo = (id, newText) => { // 아이디와 바뀐 텍스트를 받아오면
-        const newTodos = [ ...this.state.todos]; // setState에 접근하기 전까지는, 새로운 객체를 만들어서 그걸 newTodos에 받고
-
-        const targetIndex = newTodos.findIndex(v => v.id === id ); // 인덱스에 접근해서 바꿔치기 함.
-        // - this.state[targetIndex].text = newText // 이렇게 this.setState를 직접 바꾸면 안됨.
-        // - newTodos[targetIndex].text = newText; // 배열안의 객체 (객체는 참조형 데이터형이라서 안됨)
-        // - 다음과 같이 Object.assign을 이용해야 올바름
-        newTodos[targetIndex] = Object.assign({}, newTodos[targetIndex], {
+        ax.put(`/${id}`, { // 객체안에서 text만 건들기
             text: newText
         })
+        .then(res => {
+            const newTodos = [ ...this.state.todos]; // setState에 접근하기 전까지는, 새로운 객체를 만들어서 그걸 newTodos에 받고
 
-        this.setState({
-            todos: newTodos,
-            editingId: null
+            const targetIndex = newTodos.findIndex(v => v.id === id ); // 인덱스에 접근해서 바꿔치기 함.
+            // - this.state[targetIndex].text = newText // 이렇게 this.setState를 직접 바꾸면 안됨.
+            // - newTodos[targetIndex].text = newText; // 배열안의 객체 (객체는 참조형 데이터형이라서 안됨)
+            // - 다음과 같이 Object.assign을 이용해야 올바름
+            newTodos[targetIndex] = res.data; // 길었던거 이렇게 수정!!!!!!!(덮어쓰기)
+
+            this.setState({
+                todos: newTodos,
+                editingId: null
+            })
         })
     }
 
@@ -87,13 +90,17 @@ class App extends React.Component{
     }
 
     toggleTodo = id => { // id값을 받아서 그거에 해당되는 isDone을 toggle시킴 (기본적인 동작은 saveTodo와 비슷)
+
         const newTodos = [ ... this.state.todos ];
         const targetIndex = newTodos.findIndex(v => v.id === id);
-        newTodos[targetIndex] = Object.assign({}, newTodos[targetIndex], {
-            isDone : !newTodos[targetIndex].isDone
-        });
-        this.setState({
-            todos: newTodos
+        const newDone = !newTodos[targetIndex].isDone
+
+        ax.put(`/${id}`, { isDone: newDone }) // 미리 처리해주기위해 기존작업을 위로 올리고, 여기에 그 결과값인 newDone을 넣어준 것.
+        .then(res => {
+            newTodos[targetIndex] = res.data;
+            this.setState({
+                todos: newTodos
+            })
         })
     }
 
