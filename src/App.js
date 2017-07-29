@@ -15,7 +15,7 @@ class App extends React.Component{
         };
     }
 
-    componentDidMount(){ // mount시점에 요청하는것이 좋을것으로 판단
+    componentWillMount(){ // 성능해결향상1. DidMount에다가 하면 성능이슈 -> render를 한 다음에 호출하고, 서버를 갔다와서 setState를 하니까 render가 두번 일어남
         axios.get('http://localhost:2403/todos') //객체
         .then(res => {
             //console.log(res);
@@ -133,7 +133,7 @@ class App extends React.Component{
             default: filteredTodos = todos;
         }
 
-        return (
+        return todos.length ? ( // 성능해결향상1. 서버에 갔다왔는데 입력된 데이터가 없으면 아무것도 안보인채로 있을거라는 문제점이 또 생김.
             <div className="todo-app">
                 <Header 
                     addTodo={this.addTodo}
@@ -157,7 +157,7 @@ class App extends React.Component{
                     selectFilter = {this.selectFilter}
                 />
             </div>
-        )
+        ) : null;
     }
 }
 
