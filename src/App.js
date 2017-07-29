@@ -132,10 +132,23 @@ class App extends React.Component{
     }
 
     clearCompleted = () => {
+        const axArray = this.state.todos
+            .filter(v => v.isDone)
+            .map(v => ax.delete(`/${v.id}`));
+        
+        axios.all(axArray)
+        .then(() => {
+            this.setState({
+                todos: this.state.todos.filter(v => !v.isDone)
+            });
+        })
+            
+        /*
         const newTodos = this.state.todos.filter(v => !v.isDone); // isDone이 not인 애들만 찾아서 설정
         this.setState({
             todos: newTodos
         })
+        */
     }
 
     selectFilter = filter => { // footer에게 넘길 selectFilter
