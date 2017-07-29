@@ -15,8 +15,14 @@ class App extends React.Component{
         };
     }
 
-    componentWillMount(){ // 성능해결향상1. DidMount에다가 하면 성능이슈 -> render를 한 다음에 호출하고, 서버를 갔다와서 setState를 하니까 render가 두번 일어남
-        axios.get('http://localhost:2403/todos') //객체
+    componentWillMount(){ /* 성능해결향상1. DidMount에다가 하면 성능이슈 -> render를 한 다음에 호출하고, 서버를 갔다와서 setState를 하니까 render가 두번 일어남*/
+        axios.post('http://localhost:2403/todos', {  /* 두번째 인자 추가 */
+            text
+            /*
+            // id -> 알아서 만들어주기때매 없어도됨
+            // isDone: false -> 안쓰면 false로.
+            */
+        })
         .then(res => {
             //console.log(res);
             this.setState({
@@ -26,23 +32,31 @@ class App extends React.Component{
     }
 
     addTodo = text => { 
-        this.setState({
-            todos: [ ... this.state.todos, {
-                id: Date.now(),
-                text,
-                isDone: false
-            } ]
-        });
+        axios.post('http://localhost:2403/todos', {  /* 두번째 인자 추가 */
+            text
+            /*
+            // id -> 알아서 만들어주기때매 없어도됨
+            // isDone: false -> 안쓰면 false로.
+            */
+        })
+        .then(res => {
+            this.setState({
+                todos: [ ... this.state.todos, res.data ]
+            })
+        })
     }
 
     deleteTodo = id => {
-        const newTodos = [ ... this.state.todos ];
+        axios.delete(`http://localhost:2403/todos/${id}`)
+        .then(()=>{ /* res가 없으므로 비워놓고 감. */
+            const newTodos = [ ... this.state.todos ];
 
-        //index 찾는작업
-        const targetIndex = newTodos.findIndex(v => v.id === id );
-        if(targetIndex > -1) { // 찾고자 하는애가 없으면 -1을 뱉어내는 성질을 이용한 안전장치
-            newTodos.splice(targetIndex, 1);
-        }
+            /* index 찾는작업 */
+            const targetIndex = newTodos.findIndex(v => v.id === id );
+            if(targetIndex > -1) { // 찾고자 하는애가 없으면 -1을 뱉어내는 성질을 이용한 안전장치
+                newTodos.splice(targetIndex, 1);
+            }
+        })
 
         this.setState({
             todos: newTodos
