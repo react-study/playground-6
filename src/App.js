@@ -5,6 +5,11 @@ import Footer from './Footer';
 
 import axios from 'axios';
 
+const ax = axios.create({ // axios에서 제공해주는 걸 이용
+    baseURL: 'http://localhost:2403/todos',
+    timeout: 1000
+})
+
 class App extends React.Component{
     constructor(){
         super();
@@ -16,7 +21,7 @@ class App extends React.Component{
     }
 
     componentWillMount(){ /* 성능해결향상1. DidMount에다가 하면 성능이슈 -> render를 한 다음에 호출하고, 서버를 갔다와서 setState를 하니까 render가 두번 일어남*/
-        axios.get('http://localhost:2403/todos')
+        ax.get('/') 
         .then(res => {
             //console.log(res);
             this.setState({
@@ -26,7 +31,7 @@ class App extends React.Component{
     }
 
     addTodo = text => { 
-        axios.post('http://localhost:2403/todos', { text })
+        ax.post('/', { text })
         .then(res => {
             this.setState({
                 todos: [ ... this.state.todos, res.data ]
@@ -35,7 +40,7 @@ class App extends React.Component{
     }
 
     deleteTodo = id => {
-        axios.delete(`http://localhost:2403/todos/${id}`)
+        ax.delete(`/${id}`) // 원래 처음에 하려한 방법을 썼다면, axios.delete(baseUrl + '/' + id) 였을 것.
         .then(()=>{ /* res가 없으므로 비워놓고 감. */
             const newTodos = [ ... this.state.todos ];
 
