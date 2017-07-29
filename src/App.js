@@ -171,9 +171,9 @@ class App extends React.Component{
         // 필터를 거친 todos를 넘기기 위한 메서드 추가
         let filteredTodos = null;
         switch(filter) {
-            case 'Active' : filteredTodos = todos.filter(v => !v.isDone); break;
-            case 'Completed' : filteredTodos = todos.filter(v => v.isDone); break;
-            case 'All' : filteredTodos = todos; break;
+            case 'active' : filteredTodos = todos.filter(v => !v.isDone); break;
+            case 'completed' : filteredTodos = todos.filter(v => v.isDone); break;
+            case 'all' : filteredTodos = todos; break;
             default: filteredTodos = todos;
         }
 
