@@ -15,8 +15,8 @@ class App extends React.Component {
     super();
     this.state = {
       todos: [],
-      editingId: null,
-      filter: "All"
+      editingId: null
+
     };
   }
 
@@ -56,7 +56,7 @@ class App extends React.Component {
       });
 
 
-    })
+    });
 
 
   }
@@ -107,7 +107,7 @@ class App extends React.Component {
       newTodos[targetIndex] = res.data;
       this.setState({
         todos: newTodos
-      });
+      })
     });
 
   }
@@ -120,24 +120,14 @@ class App extends React.Component {
       ax.put(`/${v.id}`, {
         isDone : newIsDone
       }) // 서버에서 수집
-    )
+    );
     // 요청 자체가 배열로 들어옴
     // [ax.put(`/${id}`, { isDone : newIsDone}), ...]
     axios.all(axArray)
     .then(res => {
       this.setState({
         todos: res.map(r => r.data)
-      });
-    });
-
-
-    const newTodos = this.state.todos.map(v =>
-      Object.assign({}, v, {
-        isDone: newIsDone
       })
-    );
-    this.setState({
-      todos: newTodos
     });
   }
 
@@ -152,7 +142,7 @@ class App extends React.Component {
       this.setState({
         todos: this.state.todos.filter(v => !v.isDone)
       });
-    })
+    });
 
   }
 
