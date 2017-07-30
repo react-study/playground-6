@@ -1,21 +1,22 @@
 import React from 'react';
 import ClassNames from 'classnames';
+import {Link} from 'react-router-dom';
 
-const filterNames = ["All", "Acitve", "Completed"];
+const filterNames = ["all", "acitve", "completed"];
 const Footer = ({
   filter,
   activeLength,
   completedLength,
   clearCompleted,
-  selectFilter
+
 }) => {
 
   const filters = filterNames.map(v => (
     <li key={v}>
-      <a
+      <Link
         className = {filter === v? "selected" : ""}
-        onClick = {() => selectFilter(v)}
-      >{v}</a>
+        to={`/${v}`}
+      >{v}</Link>
     </li>
   ));
 

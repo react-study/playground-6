@@ -156,28 +156,30 @@ class App extends React.Component {
 
   }
 
-  selectFilter = filter => {
-    this.setState({
-        filter
-    });
-  }
+
 
 
   render() {
     const {
       todos,
       editingId,
-      filter
     } = this.state;
+    const {
+      match: {
+        params
+      }
+    } = this.props;
+
+    const filter = params.filter || 'all';
 
     const activeLength = todos.filter(v => !v.isDone).length;
     const completedLength = todos.length - activeLength;
 
     let filteredTodos = null;
     switch(filter) {
-      case 'Active' : filteredTodos = todos.filter(v => !v.isDone); break;
-      case 'Completed' : filteredTodos = todos.filter(v => v.isDone); break;
-      case 'All' :
+      case 'active' : filteredTodos = todos.filter(v => !v.isDone); break;
+      case 'completed' : filteredTodos = todos.filter(v => v.isDone); break;
+      case 'all' :
       default : filteredTodos = todos;
     }
 
