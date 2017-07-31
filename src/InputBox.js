@@ -2,11 +2,15 @@ import React from 'react';
 
 class InputBox extends React.Component{
     deposit() {
-        this.props.depositAccount(this._inputDom.value);
+        const money = this._inputDom.value;
+        if(!money || money < 0) return;
+        this.props.depositAccount(money);
         this._inputDom.value = '';
     }
     withdrawal() {
-        this.props.withdrawalAccount(this._inputDom.value);
+        const money = this._inputDom.value;
+        if(!money || money < 0) return;
+        this.props.withdrawalAccount(money);
         this._inputDom.value = '';
     }
     render(){

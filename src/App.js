@@ -38,9 +38,6 @@ class App extends React.Component {
     }
 
     render(){
-        const {
-            accounts
-        } = this.state;
 
         return(
             <div className="Bank-app">
@@ -49,7 +46,7 @@ class App extends React.Component {
                     withdrawalAccount={this.withdrawalAccount}
                 />
                 <AccountBook
-                    accounts={accounts}
+                    accounts={this.state.accounts}
                 />
             </div>
         )
