@@ -4,3 +4,4 @@ dist
 npm-debug.log
 db
 yarn.lock
+.idea
