@@ -25,7 +25,7 @@ class App extends React.Component {
     }
     withdrawalAccount = money => {
         const newFinalTotal = parseInt(this.state.finalTotal) - parseInt(money);
-        if(newFinalTotal < 0) throw '잔액이 부족합니다.'
+        if(newFinalTotal < 0) throw alert( '잔액이 부족합니다.' );
         const newAccounts = [...this.state.accounts,{
             status: "withdrawal",
             money,
