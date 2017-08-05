@@ -1,5 +1,5 @@
 import React from 'react';
-import AppContainer from './components/App';
+import AppContainer from './components/AppContainer';
 import { Provider } from 'react-redux';
 import store from './store';
 

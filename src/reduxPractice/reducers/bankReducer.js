@@ -25,7 +25,6 @@ const bankReducer = (prevState = initialState, action) => { //새로운 상태 �
         default:
             return prevState;
     }
-    return newState;
 }
 
 export default bankReducer;
