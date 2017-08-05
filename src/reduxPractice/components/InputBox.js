@@ -10,14 +10,12 @@ class InputBox extends React.Component {
   render() {
     return (
       <div>
-        <input type="text" 
+        <input type="text"
           ref={ref => {
             this._input = ref;
           }}
         />
-        <button style={{
-          border:'1px solid #000'
-        }} onClick={() => this.calc('deposit')}>입금</button>
+        <button onClick={() => this.calc('deposit')}>입금</button>
         <button onClick={() => this.calc('withdraw')}>출금</button>
       </div>
     );
