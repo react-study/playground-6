@@ -1,10 +1,11 @@
 import React from 'react';
-import App from './components/App';
+import AppContainer from './components/App';
 import { Provider } from 'react-redux';
-import store from 'store';
+import store from './store';
 
 const Main = () => (
     <Provider store = {store}>
+        <AppContainer/>
     </Provider>
 );
 
