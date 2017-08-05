@@ -4,18 +4,42 @@ import AccountList from './AccountList';
 
 const mapStateToProps = state => ({
     // state가 props로 변환된 데이터들
-    accountData:  ???
-})
+    accountData: ???
+});
+
 const mapDispatchToProps = dispatch => ({
     // 메소드(action을 dispatch하는 메소드)들
-    calculate: (type, money) => dispatch({ //dispatch는 액션객체을 날린다.
-
+    calculate: (type, money) => dispatch(bankAction[type](money))
+    /*
+    calculate = (type, money) => { //같은 money를 가지고, store에 전달.
+        if (type === 'deposit') {
+            dispatch({
+                type: 'DEPOSIT_MONEY', // store야 입금을 처리하렴.
+                money
+            })
+        } else {
+            dispatch({
+                type: 'WITHDRAW_MONEY', // store야 인출을 처리하렴.
+                money
+            })
+        }
     })
+    */
 })
+
+const bankAction = {
+    deposit: money => ({
+        type: 'DEPOSIT_MONEY',
+        money
+    }), // action을 반환하는 함수. actionCreator
+    withdraw: money => ({
+        type: 'WITHDRAW_MONEY',
+    })
+}
 
 class AppContainer extends React.Component {
 
-    // 2번째 방법 ---------------------------------------------------
+    /*
     calculate = (type, money) => {
         money = money * 1; //숫자형으로 바꿔주기;
         const prevAccount = this.props.accountData;
@@ -32,8 +56,13 @@ class AppContainer extends React.Component {
             ]
         })
     }
+    */
 
     render() {
+        const {
+            calculate,
+            accountData
+        } = this.props;
         return (
             <div>
                 <InputBox calculate={this.props.calculate}/>
