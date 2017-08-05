@@ -1,9 +1,9 @@
 import React from 'react';
 
 const AccountList = (props) => {
-    const accountList = props.accountList.map((v, i) => (
+    const accountList = props.accountList.map(({type, money, result}, i) => (
         <tr key={i}>
-            <td>{type === 'save' ? money : ''}</td>
+            <td>{type === 'deposit' ? money : ''}</td>
             <td>{type === 'withdraw' ? money : ''}</td>
             <td>{result}</td>
         </tr>
