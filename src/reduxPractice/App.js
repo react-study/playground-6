@@ -38,7 +38,7 @@ class App extends React.Component {
     // 2번째 방법 ---------------------------------------------------
     calculate = (type, money) => {
         money = money * 1; //숫자형으로 바꿔주기;
-        const prevAccount = this.state.accountList;
+        const prevAccount = this.state.accountData;
         const prevLength = prevAccount.length;
         const lastResult = prevLength? (prevAccount[prevLength - 1].result) : 0;   // lastResult state로 따로 빼도 됨.
 
@@ -56,7 +56,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <Input calculate={this.calculate}/>
+                <InputBox calculate={this.calculate}/>
                 <AccountList accountData={this.state.accountData}/>
             </div>
         );
