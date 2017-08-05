@@ -1,6 +1,7 @@
 import React from 'react';
 import InputBox from './InputBox';
 import AccountList from './AccountList';
+import bankAction from '../actions/bankAction';
 
 const mapStateToProps = state => ({
     // state가 props로 변환된 데이터들
@@ -27,18 +28,7 @@ const mapDispatchToProps = dispatch => ({
     */
 })
 
-const bankAction = {
-    deposit: money => ({
-        type: 'DEPOSIT_MONEY',
-        money
-    }), // action을 반환하는 함수. actionCreator
-    withdraw: money => ({
-        type: 'WITHDRAW_MONEY',
-    })
-}
-
 class AppContainer extends React.Component {
-
     /*
     calculate = (type, money) => {
         money = money * 1; //숫자형으로 바꿔주기;
