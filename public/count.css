@@ -1,0 +1,48 @@
+@charset "utf-8";
+
+body { height: 100%; line-height: 16px; font-size: 14px; font-family: "Open Sans", "NanumBarunGothic"; word-break: break-word; word-wrap: break-word; word-break: keep-all; }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, blockquote, th, td, p { margin: 0px; padding:0px; -webkit-text-size-adjust:none; }
+table { border-collapse: collapse; border-spacing: 0px; }
+fieldset, img, abbr, acronym { border: 0px; }
+legend { position: absolute; *margin-left: -7px; height: 0; line-height: 0; font-size: 0; overflow: hidden; }
+address, caption, cite, code, dfn, em, var { font-style: normal; font-weight: normal; }
+ol,ul { list-style: none; }
+caption { height: 0; line-height: 0; font-size: 0; overflow: hidden; text-indent: -10000px; }
+q:before, q:after { content:''; }
+a { color: inherit; text-decoration: none; cursor: pointer; }
+hr { display: none; }
+button { padding: 0; border: 0 none; background: none; }
+
+header, footer, article, section, aside, details, figure, figcaption, nav, hgroup { display: block; margin: 0; padding: 0; }
+audio[controls], canvas, video { display: inline-block; *display: inline; *zoom: 1; }
+button, input, select, textarea { margin: 0; font-size: 100%; vertical-align: baseline; *vertical-align: middle; }
+button, input { line-height: normal; *overflow: visible; }
+table button, table input { *overflow: auto; }
+button, html input[type="button"], input[type="reset"], input[type="submit"] { cursor: pointer; -webkit-appearance: button; }
+
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; }
+input[type="search"] { -webkit-appearance: textfield; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
+input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0;}
+textarea { overflow: auto; vertical-align: top; }
+
+th, td{
+	padding:20px 50px;
+	border:1px solid #ececec;
+}
+.input-box{
+	margin-top:20px;
+}
+.input-box input[type="number"]{
+	height:30px;
+	margin-right:10px;
+	border:1px solid #ececec;
+	vertical-align:top;
+}
+.input-box button{
+	width:50px;
+	height:32px;
+	margin-right:10px;
+	border:1px solid #ececec;
+	vertical-align:top;
+}

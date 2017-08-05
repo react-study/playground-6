@@ -1,13 +1,5 @@
-# playground-6
+# Homework
 
-React Study 6기 실습용 리파지토리
+##금전출납부 만들기
 
-## branch 명명 규칙
-
-[영문이름]/[title]
-
-ex)
-```
-jaenam/todo01_add-delete
-jaenam/todo02_edit-toggle
-```
+input 창에 숫자를 입력하고 '입금', '출금' 버튼을 누르면 각각 입/출금 현황 및 잔액이 표시되는 테이블을 구성

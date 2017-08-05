@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 const HOST = 'localhost';
 const PORT = 8080;
-const _PATH = resolve(__dirname, 'src');
+const _PATH = resolve(__dirname, 'public');
 
 module.exports = {
     entry: [
