@@ -8,10 +8,6 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import todoAction from '../action/todoAction';
 
-const ax = axios.create({
-    baseURL: 'http://localhost:2403/todos',
-    timeout: 1000
-});
 
 // 뷰 : component(보여주는 뷰 영역) / container(기능위주의 레이아웃 개념) : 뷰만 담당하겠노라!
 // 명령 : actionCreator : 스토어에 전달할 데이터를 만들어서 객체(action)로 전환해주는 역학
