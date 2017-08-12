@@ -5,20 +5,40 @@ import TodoList from './TodoList';
 import Footer from './Footer';
 
 import axios from 'axios';
+import { connect } from 'react-redux';
+import todoAction from '../action/todoAction';
 
 const ax = axios.create({
     baseURL: 'http://localhost:2403/todos',
     timeout: 1000
 });
 
+const mapStateToProps = state => ({
+    todos: state.todos,
+    editingId: state.editingId
+});
+
+const mapDispatchToProps = dispatch => ({
+    addTodo: text => dispatch(todoAction.addTodo(text)),
+    deleteTodo: id => dispatch(todoAction.addTodo(id)),
+    startEdit: id => dispatch(todoAction.addTodo(id)),
+    saveTodo: (id, newText) => dispatch(todoAction.addTodo(id, newText)),
+    cancelEdit: () => dispatch(todoAction.addTodo()),
+    toggleTodo: id => dispatch(todoAction.addTodo(id)),
+    toggleAll: () => dispatch(todoAction.addTodo()),
+    clearCompleted: () => dispatch(todoAction.addTodo())
+})
+
 class App extends React.Component {
+    /* // todoReducer에서 initialState가 될 애들.
     constructor() {
         super();
-        this.state = {
+        this.state = { 
             todos: [],
             editingId: null
         };
     }
+    */
 
     componentWillMount() {
         ax.get('/')
