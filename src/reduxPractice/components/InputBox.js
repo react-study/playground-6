@@ -1,16 +1,7 @@
 import React from 'react';
 
 class InputBox extends React.Component {
-    deposit() {
-        this.props.calculate('deposit', this._input.value);
-        this._input.value = '';
-        this._input.focus();
-    }
-    withdraw() {
-        this.props.calculate('withdraw', this._input.value);
-        this._input.value = '';
-        this._input.focus();
-    }
+
     calc = (type) => {
         this.props.calculate(type, this._input.value);
         this._input.value = '';

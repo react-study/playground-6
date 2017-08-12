@@ -5,14 +5,15 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-import App from './reduxPractice/App';
+//import App from './reduxPractice/App';
+import Main from './reduxPractice/Main';
 
 
 ReactDOM.render(
     <Router>
         <Switch>
-            <Route exact path="/" component={App} />
-            <Route path="/:filter" component={App} />
+            <Route exact path="/" component={Main} />
+            <Route path="/:filter" component={Main} />
         </Switch>
     </Router>,
     document.getElementById('root')
