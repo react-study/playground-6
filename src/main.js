@@ -6,7 +6,7 @@ import {
     Switch
 } from 'react-router-dom';
 
-import App from './App';
+import App from './AppContainer';
 
 ReactDOM.render(
     <Router>

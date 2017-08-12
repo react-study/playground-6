@@ -13,12 +13,17 @@ const ax = axios.create({
     timeout: 1000
 });
 
+// 뷰 : component(보여주는 뷰 영역) / container(기능위주의 레이아웃 개념) : 뷰만 담당하겠노라!
+// 명령 : actionCreator : 스토어에 전달할 데이터를 만들어서 객체(action)로 전환해주는 역학
+// 수행결과 : reducer : 상태와 액션을 받아서 새로운 상태로 만들어 주는 역할
+
 const mapStateToProps = state => ({
     todos: state.todos,
     editingId: state.editingId
 });
 
 const mapDispatchToProps = dispatch => ({
+    getTodos: () => dispatch(todoAction.getTodos()), //액션을 요청하는!
     addTodo: text => dispatch(todoAction.addTodo(text)),
     deleteTodo: id => dispatch(todoAction.addTodo(id)),
     startEdit: id => dispatch(todoAction.addTodo(id)),
@@ -30,7 +35,20 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class App extends React.Component {
-    /* // todoReducer에서 initialState가 될 애들.
+
+    componentWillMount() {
+        this.props.getTodos(); // 위에 만들어놓은것으로 사용.
+        /*
+        ax.get('/')
+        .then(res => {
+            this.setState({
+                todos: res.data
+            });
+        });
+        */
+    }
+
+/* 나중에 일부는 액션으로, 대부분은 리듀서가 될 애들
     constructor() {
         super();
         this.state = { 
@@ -38,17 +56,6 @@ class App extends React.Component {
             editingId: null
         };
     }
-    */
-
-    componentWillMount() {
-        ax.get('/')
-        .then(res => {
-            this.setState({
-                todos: res.data
-            });
-        });
-    }
-
     addTodo = text => {
         ax.post('/', { text })
         .then(res => {
@@ -139,12 +146,21 @@ class App extends React.Component {
             });
         });
     }
-
+*/
     render() {
         const {
-            todos,
-            editingId,
-        } = this.state;
+            todos, //state
+            editingId, //state
+
+            addTodo,
+            deleteTodo,
+            startEdit,
+            saveTodo,
+            cancelEdit,
+            toggleTodo,
+            toggleAll,
+            clearCompleted
+        } = this.props; //state에서 props로 변경
 
         const {
             match: {
@@ -169,29 +185,30 @@ class App extends React.Component {
         return (
             <div className="todo-app">
                 <Header
-                    addTodo={this.addTodo}
-                    toggleAll={this.toggleAll}
+                    addTodo={addTodo}
+                    toggleAll={toggleAll}
                     isAllDone={todos.every(v => v.isDone)}
                 />
                 <TodoList
                     todos={filteredTodos}
                     editingId={editingId}
-                    deleteTodo={this.deleteTodo}
-                    startEdit={this.startEdit}
-                    saveTodo={this.saveTodo}
-                    cancelEdit={this.cancelEdit}
-                    toggleTodo={this.toggleTodo}
+                    deleteTodo={deleteTodo}
+                    startEdit={startEdit}
+                    saveTodo={saveTodo}
+                    cancelEdit={cancelEdit}
+                    toggleTodo={toggleTodo}
                 />
                 <Footer
                     filter={filter}
                     activeLength={activeLength}
                     completedLength={completedLength}
-                    clearCompleted={this.clearCompleted}
-                    selectFilter={this.selectFilter}
+                    clearCompleted={clearCompleted}
+                    selectFilter={selectFilter}
                 />
             </div>
         );
     }
+
 }
 
 export default App;
