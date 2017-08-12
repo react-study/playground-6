@@ -23,7 +23,7 @@ class InputBox extends React.Component {
             <div>
                 <input type="text"
                     ref={ref => this._input = ref} />
-                <button onClick={() => this.calc('desposit')}>입금</button>
+                <button onClick={() => this.calc('deposit')}>입금</button>
                 <button onClick={() => this.calc('withdraw')}>출금</button>
             </div>
         )
