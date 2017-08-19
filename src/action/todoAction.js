@@ -26,30 +26,47 @@ const todoAction = {
         });
     },
     addTodo: text => dispatch => {
-        // dispatch({
-        //     type: 'ADD_TODO_REQUEST'
-        // })
+        const temporalId = Date.now();
+        dispatch({
+            type: constants.todo.add_temporal,
+            newTodo: {
+                id: temporalId,
+                text
+            }
+        });
+
         ax.post('/', {text})
             .then(res => {
                 dispatch({
-                    type: constants.todo.add,
-                    newTodo: res.data
+                    type: constants.todo.add_success,
+                    newTodo: res.data,
+                    temporalId
                 })
             })
-            // .catch(err => {
+            .catch(err => {
+                dispatch({
+                    type: constants.todo.add_failed,
+                    temporalId
+                });
+            })
+    },
+    deleteTodo: id => (dispatch, getState) => {
+        const prevTodos = getState().todos;
+        dispatch({
+            type: constants.todo.delete_temporal,
+            id
+        });
+        ax.delete(`/${id}`)
+            // .then(() => {
             //     dispatch({
-            //         type: 'ADD_TODO_FAILED',
-            //         err
+            //         type:
             //     })
             // })
-    },
-    deleteTodo: id => dispatch => {
-        ax.delete(`/${id}`)
-            .then(() => {
+            .catch(err => {
                 dispatch({
-                    type: constants.todo.delete,
-                    id
-                })
+                    type: constants.todo.delete_failed,
+                    todos:prevTodos
+                });
             })
     },
     startEdit: id => ({

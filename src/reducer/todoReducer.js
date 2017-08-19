@@ -14,18 +14,42 @@ const TodoReducer = (state = initialState, action) => {
                     $set: action.todos
                 }
             });
-        case constants.todo.add:
+        case constants.todo.add_temporal:
             return update(state, {
                 todos: {
                     $push: [ action.newTodo ]
                 }
             });
-        case constants.todo.delete:
+        case constants.todo.add_success: {
+            //temporalID의 index를 찾아서, action.id로 바꾸기
+            const temporalIndex = state.todos.findIndex(v => v.id === action.temporalId)
+            return update(state, {
+                todos: {
+                    $splice:[[temporalIndex, 1, action.newTodo]]
+                }
+            });
+        }
+        case constants.todo.add_failed:{
+            //temporalID의 index를 찾아서 삭제
+            const temporalIndex = state.todos.findIndex(v => v.id === action.temporalId)
+            return update(state, {
+                todos: {
+                    $splice:[[temporalIndex, 1]]
+                }
+            });
+        }
+        case constants.todo.delete_temporal:
             return update(state, {
                 todos: {
                     $splice: [
                         [ state.todos.findIndex(v => v.id === action.id), 1 ]
                     ]
+                }
+            });
+        case constants.todo.delete_failed:
+            return update(state, {
+                todos: {
+                    $set: action.todos
                 }
             });
         case constants.todo.startEdit:
