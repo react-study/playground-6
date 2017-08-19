@@ -13,7 +13,7 @@ const todoAction = {
         ax.get('/')
         .then(res => {
             dispatch({
-                type: 'GET_TODOS_SUCCESS',
+                type: 'GET_TODOS',
                 todos: res.data
             });
         })
@@ -54,12 +54,12 @@ const todoAction = {
                 })
             })
     },
-    startEdit: id => { // 리듀서가 알아서 startEdit을 가지고 뭘 하겠지. 넘겨주기만 하면 끝.
+    startEdit: id => ({ // 리듀서가 알아서 startEdit을 가지고 뭘 하겠지. 넘겨주기만 하면 끝.
         type: 'START_EDIT',
         id
-    },
+    }),
     saveTodo: (id, newText) => dispatch => { // axios에서 ajax요청을 하는것은 기존과 같음/
-        ax.put(`/%{id}`, { text: newText })
+        ax.put(`/${id}`, { text: newText })
             .then(res => {
                 dispatch({
                     type: 'SAVE_TODO', // dispatch로 태움
@@ -71,7 +71,7 @@ const todoAction = {
     cancelEdit: () => ({
         type: 'CANCEL_EDIT'
     }),
-    toggleTodo: id => (dispatch, getSTate) => { 
+    toggleTodo: id => (dispatch, getState) => { 
         // 원래 함수를 실행한 결과를 가지고 dispatch 스토어로 보낼건데, 
         // 함수실행은 middleWare중 thunk가 함 (thunk가 원래 dispatch, getState 두가지 받음)
         // getState()하면 바로 현재 상태를 반환해주므로 간편해짐
@@ -104,7 +104,7 @@ const todoAction = {
         const prevTodos = getState().todos;
         const axArray = prevTodos
             .filter(v => v.isDone)
-            .map(v => ax.delete(`/${id}`));
+            .map(v => ax.delete(`/${v.id}`));
         axios.all(axArray)
         .then(()=> {
             dispatch({
