@@ -54,24 +54,28 @@ const todoAction = {
                 })
             })
     },
-    startEdit: id => {
+    startEdit: id => { // 리듀서가 알아서 startEdit을 가지고 뭘 하겠지. 넘겨주기만 하면 끝.
         type: 'START_EDIT',
         id
     },
-    saveTodo: (id, newText) => dispatch => {
+    saveTodo: (id, newText) => dispatch => { // axios에서 ajax요청을 하는것은 기존과 같음/
         ax.put(`/%{id}`, { text: newText })
             .then(res => {
                 dispatch({
-                    type: 'SAVE_TODO',
+                    type: 'SAVE_TODO', // dispatch로 태움
                     id,
-                    editedTodo: res.data
+                    editedTodo: res.data // 서버에서 내려온 데이터를 editedTodo에 넣어줌
                 })
             })
     },
     cancelEdit: () => ({
         type: 'CANCEL_EDIT'
     }),
-    toggleTodo: id => (dispatch, getSTate) => {
+    toggleTodo: id => (dispatch, getSTate) => { 
+        // 원래 함수를 실행한 결과를 가지고 dispatch 스토어로 보낼건데, 
+        // 함수실행은 middleWare중 thunk가 함 (thunk가 원래 dispatch, getState 두가지 받음)
+        // getState()하면 바로 현재 상태를 반환해주므로 간편해짐
+
         const newDone = !getState().todos.find(v => v.id === id).isDone;
         ax.put(`/${id}`, { isDone: newDone })
             .then(res => {
