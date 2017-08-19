@@ -16,20 +16,47 @@ const todoAction = {
             });
     },
     addTodo: text => dispatch => {
+        const temporalId = Date.now
+        dispatch({ // 일단 그리기
+            type: constants.todo.add_temporal,
+            newTodo: {
+                id: temporalId, // 임시로 만든 아이디
+                text
+            }
+        })
         ax.post('/', { text })
             .then(res => {
                 dispatch({
-                    type: constants.todo.add,
-                    newTodo: res.data
+                    type: constants.todo.add_success,
+                    newTodo: res.data,
+                    temporalId
                 })
-            });
+            })
+            .catch(err => {
+                dispatch({
+                    type: constants.todo.add_failed,
+                    temporalId
+                })
+            })
     },
-    deleteTodo: id => dispatch => {
+    deleteTodo: id => (dispatch, getState) => {
+        const prevTodos = getState().todos;
+        dispatch({
+            type: constants.todo.delete_temporal,
+            id
+        });
         ax.delete(`/${id}`)
+            /*
             .then(() => {
                 dispatch({
-                    type: constants.todo.delte,
-                    id
+                    type: constants.todo.delete_success
+                })
+            })
+            */
+            .catch(err => {
+                dispatch({
+                    type: constants.todo.delete_failed,
+                    todos: prevTodos
                 });
             });
     },
