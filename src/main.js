@@ -5,15 +5,18 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-
-import App from './App';
+import { Provider } from 'react-redux';
+import AppContainer from './components/AppContainer';
+import store from './store';
 
 ReactDOM.render(
-    <Router>
-        <Switch>
-            <Route exact path="/" component={App} />
-            <Route path="/:filter" component={App} />
-        </Switch>
-    </Router>,
+    <Provider store={store}>
+        <Router>
+            <Switch>
+                <Route exact path="/" component={AppContainer} />
+                <Route path="/:filter" component={AppContainer} />
+            </Switch>
+        </Router>
+    </Provider>,
     document.getElementById('root')
 );
