@@ -1,5 +1,4 @@
 import React from 'react';
-
 const AccountList = (props) => {
     const accountList = props.accountData.map(({type, money, result}, i) => (
         <tr key={i}>
@@ -8,17 +7,19 @@ const AccountList = (props) => {
             <td>{result}</td>
         </tr>
     ));
-    return(
-        <table>
+    return (
+        <table style={{
+            border: '1px solid #000'
+        }}>
             <thead>
             <tr>
-                <td>입금</td>
-                <td>출금</td>
-                <td>계</td>
+                <th>입금</th>
+                <th>출금</th>
+                <th>계</th>
             </tr>
             </thead>
             <tbody>
-                {accountList}
+            {accountList}
             </tbody>
         </table>
     );

@@ -10,6 +10,7 @@ import tabAction from '../actions/tabAction';
 const mapStateToProps = state => ({
     // store의 state를 props로 변환하고자 하는 데이터들.
     accountData: state.bank.accountData,
+    effect: state.bank.effect,
     focused: state.tab.focused
 });
 
@@ -25,10 +26,11 @@ class App extends React.Component {
             calculate,
             accountData,
             focused,
-            changeTab
+            changeTab,
+            effect
         } = this.props;
         return (
-            <div>
+            <div style={{backgroundColor: effect ? '#ff0' : '#0ff'}}>
                 <Tabs changeTab={changeTab} focused={focused}/>
                 <InputBox calculate={calculate}/>
                 <AccountList accountData={accountData}/>

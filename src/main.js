@@ -5,9 +5,8 @@ import {
     Route,
     Switch
 } from 'react-router-dom';
-//import App from './reduxPractice/App';
-import Main from './reduxPractice/Main';
 
+import Main from './reduxPractice/Main';
 
 ReactDOM.render(
     <Router>

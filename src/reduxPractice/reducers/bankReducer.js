@@ -1,6 +1,7 @@
 const initialState = {
-    accountData: []
-}
+    accountData: [],
+    effect: false
+};
 
 const bankReducer = (prevState = initialState, action) => {
     switch(action.type) {
@@ -12,15 +13,22 @@ const bankReducer = (prevState = initialState, action) => {
             const lastResult = prevLength ? (prevAccount[prevLength - 1].result) : 0;
 
             return {
-                accountData: [...prevAccount, {
-                    type: 'deposit',
+                accountData: [ ...prevAccount, {
+                    type: action.type === 'DEPOSIT_MONEY' ? 'deposit' : 'withdraw',
                     money,
                     result: lastResult + (action.type === 'DEPOSIT_MONEY' ? 1 : -1) * money
-                }]
-            }
+                }],
+                effect: prevState.effect
+            };
+        case 'SHOW_EFFECT': return Object.assign({}, prevState, {
+            effect: true
+        });
+        case 'HIDE_EFFECT': return Object.assign({}, prevState, {
+            effect: false
+        });
         default:
             return prevState;
     }
-}
+};
 
 export default bankReducer;
