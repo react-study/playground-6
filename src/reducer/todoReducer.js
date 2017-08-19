@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-
+import constants from '../constants';
 const initialState = {
     todos: [],
     editingId: null
@@ -7,19 +7,19 @@ const initialState = {
 
 const TodoReducer = (state = initialState, action) => {
     switch(action.type) {
-        case 'GET_TODOS':
+        case constants.todo.get:
             return update(state, {
                 todos: {
                     $set: action.todos
                 }
             });
-        case 'ADD_TODO':
+        case constants.todo.add:
             return update(state, {
                 todos: {
                     $push: [ action.newTodo ]
                 }
             });
-        case 'DELETE_TODO':
+        case constants.todo.delete:
             return update(state, {
                 todos: {
                     $splice: [
@@ -27,13 +27,11 @@ const TodoReducer = (state = initialState, action) => {
                     ]
                 }
             });
-
-        case 'START_EDIT':
+        case constants.todo.startEdit:
             return update(state, {
                 editingId: { $set: action.id }
             });
-
-        case 'SAVE_TODO':
+        case constants.todo.save:
             return update(state, {
                 todos: {
                     [state.todos.findIndex(v => v.id === action.id)]: {
@@ -43,36 +41,33 @@ const TodoReducer = (state = initialState, action) => {
                 editingId: {
                     $set: null
                 }
-            })
-
-        case 'CANCEL_EDIT':
+            });
+        case constants.todo.cancelEdit:
             return update(state, {
                 editingId: {
                     $set: null
                 }
-            })
-
-        case 'TOGGLE_TODO':
+            });
+        case constants.todo.toggle:
             return update(state, {
                 todos: {
                     [state.todos.findIndex(v => v.id === action.id)]: {
                         $set: action.editedTodo
                     }
                 }
-            })
-
-        case 'TOGGLE_ALL':
+            });
+        case constants.todo.toggleAll:
             return update(state, {
                 todos: {
                     $set: action.editedTodos
                 }
-            })
-        case 'CLEAR_COMPLETED':
+            });
+        case constants.todo.clear:
             return update(state, {
                 todos: {
                     $apply: todos => todos.filter(v => !v.isDone)
                 }
-            })
+            });
         default: return state;
     }
 }

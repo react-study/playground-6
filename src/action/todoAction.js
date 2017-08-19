@@ -1,3 +1,4 @@
+import constants from '../constants';
 import axios from 'axios';
 const ax = axios.create({
     baseURL: 'http://localhost:2403/todos',
@@ -6,85 +7,59 @@ const ax = axios.create({
 
 const todoAction = {
     getTodos: () => dispatch => {
-        dispatch({
-            type: 'GET_TODOS_REQUEST'
-        });
-        
         ax.get('/')
-        .then(res => {
-            dispatch({
-                type: 'GET_TODOS',
-                todos: res.data
+            .then(res => {
+                dispatch({
+                    type: constants.todo.get,
+                    todos: res.data
+                });
             });
-        })
-        .catch(err => {
-            dispatch({
-                type: 'GET_TODOS_FAILED',
-                err
-            });
-        });
     },
     addTodo: text => dispatch => {
-        dispatch({
-            type: 'ADD_TODO_REQUEST'
-        });
         ax.post('/', { text })
             .then(res => {
                 dispatch({
-                    type: 'ADD_TODO',
+                    type: constants.todo.add,
                     newTodo: res.data
                 })
-            })
-        .catch(err => {
-            dispatch({
-                type: 'ADD_TODO_FAILED',
-                err
-            })
-        })
+            });
     },
     deleteTodo: id => dispatch => {
-        dispatch({
-            type: 'DELETE_TODO_REQUEST'
-        });
         ax.delete(`/${id}`)
-            .then(()=> {
+            .then(() => {
                 dispatch({
-                    type: 'DELETE_TODO',
+                    type: constants.todo.delte,
                     id
-                })
-            })
+                });
+            });
     },
-    startEdit: id => ({ // 리듀서가 알아서 startEdit을 가지고 뭘 하겠지. 넘겨주기만 하면 끝.
-        type: 'START_EDIT',
+    startEdit: id => ({
+        type: constants.todo.startEdit,
         id
     }),
-    saveTodo: (id, newText) => dispatch => { // axios에서 ajax요청을 하는것은 기존과 같음/
+    saveTodo: (id, newText) => dispatch => {
         ax.put(`/${id}`, { text: newText })
             .then(res => {
                 dispatch({
-                    type: 'SAVE_TODO', // dispatch로 태움
+                    type: constants.todo.save,
                     id,
-                    editedTodo: res.data // 서버에서 내려온 데이터를 editedTodo에 넣어줌
-                })
-            })
+                    editedTodo: res.data
+                });
+            });
     },
     cancelEdit: () => ({
-        type: 'CANCEL_EDIT'
+        type: constants.todo.cancelEdit
     }),
-    toggleTodo: id => (dispatch, getState) => { 
-        // 원래 함수를 실행한 결과를 가지고 dispatch 스토어로 보낼건데, 
-        // 함수실행은 middleWare중 thunk가 함 (thunk가 원래 dispatch, getState 두가지 받음)
-        // getState()하면 바로 현재 상태를 반환해주므로 간편해짐
-
+    toggleTodo: id => (dispatch, getState) => {
         const newDone = !getState().todos.find(v => v.id === id).isDone;
         ax.put(`/${id}`, { isDone: newDone })
             .then(res => {
                 dispatch({
-                    type: 'TOGGLE_TODO',
+                    type: constants.todo.toggle,
                     id,
                     editedTodo: res.data
-                })
-            })
+                });
+            });
     },
     toggleAll: () => (dispatch, getState) => {
         const prevTodos = getState().todos;
@@ -95,10 +70,10 @@ const todoAction = {
         axios.all(axArray)
             .then(res => {
                 dispatch({
-                    type: 'TOGGLE_ALL',
+                    type: constants.todo.toggleAll,
                     editedTodos: res.map(v => v.data)
-                })
-            })
+                });
+            });
     },
     clearCompleted: () => (dispatch, getState) => {
         const prevTodos = getState().todos;
@@ -106,12 +81,12 @@ const todoAction = {
             .filter(v => v.isDone)
             .map(v => ax.delete(`/${v.id}`));
         axios.all(axArray)
-        .then(()=> {
+        .then(() => {
             dispatch({
-                type: 'CLEAR_COMPLETED'
-            })
-        })
+                type: constants.todo.clear
+            });
+        });
     },
-}
+};
 
 export default todoAction;
