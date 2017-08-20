@@ -20,26 +20,47 @@ const todoAction = {
         })
     },
     addTodo: text => dispatch => {
+        const temporalId = Date.now();
         dispatch({
-            type:'ADD_TODO_REQUEST'
+            type: constants.todos.add_temporal,
+            newTodo: {
+                id: temporalId,
+                text
+            }
         });
+
         ax.post('/',{ text })
         .then(res => {
             dispatch({
-                type: constants.todos.add,
-                newTodo: res.data
+                type: constants.todos.add_success,
+                newTodo: res.data,
+                temporalId
             });
-        });  
+        })
+        .catch(err => {
+            dispatch({
+                type: constants.todos.add_failed,
+                temporalId
+            });
+        });
     },
-    deleteTodo: id => dispatch => {
+    deleteTodo: id => (dispatch, getState) => {
+        const prevTodos = getState().todos;
         dispatch({
-            type:'DELETE_TODO_REQUEST'
+            type: constants.todos.delete_temporal,
+            id
         });
         ax.delete(`/${id}`)
-        .then(()=>{
+        .then(() => {
             dispatch({
-                type: constants.todos.delete,
-                id
+                type: constants.todos.delete_success
+            });
+
+        })
+        .catch(err => {
+            dispatch({
+                type: constants.todos.delete_failed,
+                todos: prevTodos
             });
         });
     },
@@ -98,6 +119,6 @@ const todoAction = {
             });
         });
     },
-}
+};
 
 export default todoAction;

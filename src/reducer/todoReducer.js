@@ -1,6 +1,5 @@
-import constants from '../constants';
 import update from 'immutability-helper';
-
+import constants from '../constants';
 const initialState = {
     todos: [],
     editingId: null
@@ -15,19 +14,49 @@ const TodoReducer = (state = initialState, action) => {
                 }
             });
 
-        case constants.todos.add:
+        case constants.todos.add_temporal:
             return update(state, {
                 todos: {
                     $push: [ action.newTodo ]
                 }
             });
 
-        case constants.todos.delete:
+        case constants.todos.add_success: {
+            // temporalId의 index를 찾아서, 걔를 action.newTodo로 바꿔치기
+            const temporalIndex = state.todos.findIndex(v => v.id === action.temporalId);
+
+            return update(state, {
+                todos: {
+                    $splice: [[temporalIndex, 1, action.newTodo]]
+                }
+            });
+        }
+
+        case constants.todos.add_failed: {
+            // temporalId의 index를 찾아서, 걔를 삭제 
+            const temporalIndex = state.todos.findIndex(v => v.id === action.temporalId);
+
+            return update(state, {
+                todos: {
+                     $splice: [[temporalIndex, 1]]
+                   
+                }
+            });
+        }
+
+        case constants.todos.delete_temporal:
             return update(state, {
                 todos: {
                     $splice: [
                         [ state.todos.findIndex(v => v.id === action.id), 1 ]
                     ]
+                }
+            });
+
+        case constants.todos.delete_failed:
+            return update(state, {
+                todos: {
+                    $set: action.todos
                 }
             });
 
